@@ -30,11 +30,17 @@ class _IndiInscriptState extends State<IndiInscript> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _verifyPasswordController =
+      TextEditingController();
+
+  get children => null;
+
   @override
   void dispose() {
     usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _verifyPasswordController.dispose();
     super.dispose();
   }
 
@@ -168,31 +174,43 @@ class _IndiInscriptState extends State<IndiInscript> {
           const SizedBox(
             height: 12,
           ),
-          Container(
-            height: 47,
-            width: 328,
-            decoration: BoxDecoration(
-              color: const Color(0xFF1E262C),
-              borderRadius: BorderRadius.circular(3),
-            ),
-            child: const TextField(
-              cursorColor: Colors.white,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'GSans',
-                color: Colors.white,
-              ),
-              decoration: InputDecoration(
-                hintText: 'Vérification du mot de passe',
-                hintStyle: TextStyle(
-                  fontFamily: 'GSans',
-                  fontSize: 14,
-                  color: Color(0xFFEDF0F3),
+          Column(
+            children: [
+              Container(
+                height: 47,
+                width: 328,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E262C),
+                  borderRadius: BorderRadius.circular(3),
                 ),
-                contentPadding: EdgeInsets.all(10),
-                border: InputBorder.none,
+                child: TextField(
+                  controller: _verifyPasswordController,
+                  cursorColor: Colors.white,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: 'GSans',
+                    color: Colors.white,
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: 'Vérification du mot de passe',
+                    hintStyle: TextStyle(
+                      fontFamily: 'GSans',
+                      fontSize: 14,
+                      color: Color(0xFFEDF0F3),
+                    ),
+                    contentPadding: EdgeInsets.all(10),
+                    border: InputBorder.none,
+                  ),
+                  onChanged: (value) {
+                    if (value == _passwordController.text) {
+                    } else {
+                      // Les deux champs de mot de passe ne sont pas identiques
+                      showErrorMessage(context);
+                    }
+                  },
+                ),
               ),
-            ),
+            ],
           ),
           const SizedBox(
             height: 73,
@@ -281,4 +299,26 @@ class _UserInformation extends State<UserInformation> {
       },
     );
   }
+}
+
+void showErrorMessage(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Erreur'),
+        content: const Text(
+            'Les deux champs de mot de passe ne sont pas identiques.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+  return;
 }
