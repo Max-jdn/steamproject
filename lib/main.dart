@@ -4,8 +4,8 @@ import 'package:steamproject/connexion.dart';
 import 'package:steamproject/detail_jeu.dart';
 import 'package:steamproject/accueil.dart';
 
-const d_black=Color(0xFF1A2025);
-const d_purple=Color(0xFF636AF6);
+const d_black = Color(0xFF1A2025);
+const d_purple = Color(0xFF636AF6);
 
 void main() {
   runApp(MyApp());
@@ -21,4 +21,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
