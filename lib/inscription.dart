@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:steamproject/inscription.dart';
 import 'package:steamproject/main.dart';
 import 'package:steamproject/accueil.dart';
-import 'package:steamproject/detail_jeu.dart';
-import 'package:steamproject/mdpoublie.dart';
 
-class Connexion extends StatelessWidget{
+class Inscription extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Scaffold(
         body: SingleChildScrollView(//pour éviter l'overflow
             child: Column(
               children: [
-                IndiConnect(),
+                IndiInscript(),
               ],
             )
         )
@@ -20,7 +17,7 @@ class Connexion extends StatelessWidget{
   }
 }
 
-class IndiConnect extends StatelessWidget {
+class IndiInscript extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +32,7 @@ class IndiConnect extends StatelessWidget {
           ),
           Container(
             child: Text(
-              'Bienvenue !',
+              'Inscription ',
               style: TextStyle(
                 fontFamily: 'GSans',
                 color:Colors.white,
@@ -49,7 +46,7 @@ class IndiConnect extends StatelessWidget {
           ),
           Container(
             child: Text(
-              'Veuillez vous connecter ou créer un nouveau compte',
+              'Veuillez saisir ces différentes informations, afin que vos listes soient sauvegardées',
               style: TextStyle(
                 fontFamily: 'GSans',
                 color:Colors.white,
@@ -59,7 +56,36 @@ class IndiConnect extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 25,
+            height: 43,
+          ),
+          Container(
+            height: 47,
+            width: 328,
+            decoration: BoxDecoration(
+              color: Color(0xFF1E262C),
+              borderRadius: BorderRadius.circular(3),
+            ),
+            child: TextField(
+              cursorColor: Colors.white,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'GSans',
+                color: Colors.white,
+              ),
+              decoration: InputDecoration(
+                hintText: 'Nom d Utilisateur',
+                hintStyle: TextStyle(
+                  fontFamily: 'GSans',
+                  fontSize: 14,
+                  color: Color(0xFFEDF0F3),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 12,
           ),
           Container(
             height: 47,
@@ -116,6 +142,36 @@ class IndiConnect extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(
+            height: 12,
+          ),
+          Container(
+            height: 47,
+            width: 328,
+            decoration: BoxDecoration(
+              color: Color(0xFF1E262C),
+              borderRadius: BorderRadius.circular(3),
+            ),
+            child: TextField(
+              cursorColor: Colors.white,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'GSans',
+                color: Colors.white,
+              ),
+              decoration: InputDecoration(
+                hintText: 'Vérification du mot de passe',
+                hintStyle: TextStyle(
+                  fontFamily: 'GSans',
+                  fontSize: 14,
+                  color: Color(0xFFEDF0F3),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+
           SizedBox(height: 73,),
           Container(
             width: 328,
@@ -137,75 +193,12 @@ class IndiConnect extends StatelessWidget {
               height: 47,
 
               child: Text(
-                'Se connecter',
+                'S inscrire',
                 style: TextStyle(
                   fontFamily: 'GSans',
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 15,),
-          Container(
-            width: 328,
-            height: 47,
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(3),
-              border: Border.all(
-                color: d_purple,
-                width: 1.20,
-              ),
-            ),
-            child: MaterialButton(
-              onPressed: (){
-                Navigator.push(context,MaterialPageRoute(builder:(context){
-                  return Inscription();
-                },
-                ),
-                );
-              },
-              minWidth: 328,
-              height: 47,
-
-              child: Text(
-                'Créer un nouveau compte',
-                style: TextStyle(
-                  fontFamily: 'GSans',
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 162,),
-          Container(
-            width: 328,
-            height: 47,
-            alignment: Alignment.bottomCenter,
-
-            child: MaterialButton(
-              onPressed: (){
-                Navigator.push(context,MaterialPageRoute(builder:(context){
-                  return MdpOublie();
-                },
-                ),
-                );
-              },
-              minWidth: 328,
-              height: 47,
-
-              child: Text(
-                'Mot de passe oublié',
-                style: TextStyle(
-                  fontFamily: 'GSans',
-                  color: Color(0xFFAFB8BB),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  decoration:TextDecoration.underline,
                 ),
               ),
             ),
