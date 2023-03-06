@@ -17,12 +17,14 @@ import 'package:steamproject/main.dart';
   }
 }
 
-*/class DetailJeuBar extends StatelessWidget implements PreferredSizeWidget{
+*/
+class DetailJeuBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
   Size get preferredSize => new Size.fromHeight(50);
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
+      title: const Text(
         'Détails du jeu',
         style: TextStyle(
           fontFamily: 'GSans',
@@ -32,7 +34,7 @@ import 'package:steamproject/main.dart';
         ),
       ),
       actions: [
-        IconButton(
+        const IconButton(
           icon: Icon(
             Icons.favorite_outline_rounded,
             color: Colors.white,
@@ -40,7 +42,7 @@ import 'package:steamproject/main.dart';
           ),
           onPressed: null,
         ),
-        IconButton(
+        const IconButton(
           icon: Icon(
             Icons.star_border_outlined,
             color: Colors.white,
@@ -93,7 +95,6 @@ class DetailPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<DetailPage> {
-
   SelectedTab _tab = SelectedTab.description;
 
   @override
@@ -111,7 +112,7 @@ class _MyHomePageState extends State<DetailPage> {
                 Container(
                   width: 528,
                   height: 297,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
                         'assets/images/battlefield1gasMask.png',
@@ -139,20 +140,20 @@ class _MyHomePageState extends State<DetailPage> {
                         child: Row(
                           children: <Widget>[
                             SizedBox(
-                                height: 78,
-                                width: 62,
-                                child: Container(
-                                  width: 79,
-                                  height: 79,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/images/battlefield1pochette.png',
-                                      ),
-                                      fit: BoxFit.cover,
+                              height: 78,
+                              width: 62,
+                              child: Container(
+                                width: 79,
+                                height: 79,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      'assets/images/battlefield1pochette.png',
                                     ),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
+                              ),
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -182,86 +183,80 @@ class _MyHomePageState extends State<DetailPage> {
               ],
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 18.0, bottom: 17),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _tab = SelectedTab.description;
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(4),
-                                    bottomLeft: Radius.circular(4),
-                                  ),
-                                ),
-
-                                textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                ),
-                              primary:d_purple,
+              padding: const EdgeInsets.only(top: 18.0, bottom: 17),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _tab = SelectedTab.description;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(4),
+                              bottomLeft: Radius.circular(4),
                             ),
-                            child: const Text(
-                              'DESCRIPTION',
-                              style: TextStyle(
-                                fontFamily: 'GSans',
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),)
+                          ),
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                          primary: d_purple,
                         ),
-                    ),
-                    Expanded(
-                        child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _tab = SelectedTab.review;
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(4),
-                                    bottomRight: Radius.circular(4),
-                                  ),
-                                ),
-
-                                textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                ),
-                              primary:d_purple,
+                        child: const Text(
+                          'DESCRIPTION',
+                          style: TextStyle(
+                            fontFamily: 'GSans',
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _tab = SelectedTab.review;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(4),
+                              bottomRight: Radius.circular(4),
                             ),
-                            child: const Text(
-                                'AVIS',
-                              style: TextStyle(
-                                fontFamily: 'GSans',
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            )
+                          ),
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                          primary: d_purple,
                         ),
-                    ),
-                  ],
-                ),
+                        child: const Text(
+                          'AVIS',
+                          style: TextStyle(
+                            fontFamily: 'GSans',
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )),
+                  ),
+                ],
+              ),
             ),
-            Stack(
-                children: [
-                      Offstage(
-                          offstage: _tab != SelectedTab.description,
-                          child: DescriptionTab()),
-                      Offstage(
-                          offstage: _tab != SelectedTab.review,
-                          child: ReviewsTab()
-                      ),
-                ]
-            )
+            Stack(children: [
+              Offstage(
+                  offstage: _tab != SelectedTab.description,
+                  child: const DescriptionTab()),
+              Offstage(
+                  offstage: _tab != SelectedTab.review,
+                  child: const ReviewsTab()),
+            ])
           ],
         ),
       ),
@@ -276,7 +271,7 @@ class DescriptionTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Description");
+    return const Text("Description");
   }
 }
 
@@ -285,9 +280,6 @@ class ReviewsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Avis");
+    return const Text("Avis");
   }
 }
-
-
-

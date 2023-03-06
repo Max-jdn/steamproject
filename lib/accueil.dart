@@ -7,31 +7,34 @@ import 'package:steamproject/wishlistvide.dart';
 import 'package:steamproject/meslikes.dart';
 import 'package:steamproject/meslikesvide.dart';
 
+class Accueil extends StatelessWidget {
+  const Accueil({super.key});
 
-class Accueil extends StatelessWidget{
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AccueilBar(),
-        body: SingleChildScrollView(//pour éviter l'overflow
+        appBar: const AccueilBar(),
+        body: SingleChildScrollView(
+            //pour éviter l'overflow
             child: Column(
-              children: [
-                SearchSection(),
-                Presentation(),
-                GameSection(),
-              ],
-            )
-        )
-    );
+          children: [
+            const SearchSection(),
+            const Presentation(),
+            GameSection(),
+          ],
+        )));
   }
 }
 
-class AccueilBar extends StatelessWidget implements PreferredSizeWidget{
-  Size get preferredSize => new Size.fromHeight(50);
+class AccueilBar extends StatelessWidget implements PreferredSizeWidget {
+  const AccueilBar({super.key});
+
   @override
-  Widget build(BuildContext context){
+  Size get preferredSize => const Size.fromHeight(50);
+  @override
+  Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
+      title: const Text(
         'Accueil',
         style: TextStyle(
           fontFamily: 'GSans',
@@ -42,33 +45,37 @@ class AccueilBar extends StatelessWidget implements PreferredSizeWidget{
       ),
       actions: [
         IconButton(
-          icon: Icon(
-            Icons.favorite_outline_rounded,
-            color: Colors.white,
-            size: 20,
-          ),
-           onPressed: () {
-             Navigator.push(context, MaterialPageRoute(builder: (context) {
-               return LikesVide();
-             },
-             ),
-             );
-           }
-           ),
-        IconButton(
-          icon: Icon(
-            Icons.star_border_outlined,
-            color: Colors.white,
-            size: 20,
-          ),
+            icon: const Icon(
+              Icons.favorite_outline_rounded,
+              color: Colors.white,
+              size: 20,
+            ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return WishlistVide();
-              },
-              ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const LikesVide();
+                  },
+                ),
               );
-            }
-        ),
+            }),
+        IconButton(
+            icon: const Icon(
+              Icons.star_border_outlined,
+              color: Colors.white,
+              size: 20,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const WishlistVide();
+                  },
+                ),
+              );
+            }),
       ],
       backgroundColor: d_black,
     );
@@ -76,78 +83,83 @@ class AccueilBar extends StatelessWidget implements PreferredSizeWidget{
 }
 
 class SearchSection extends StatelessWidget {
+  const SearchSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: d_black,
-      padding: EdgeInsets.fromLTRB(10, 25, 10, 10),
-      child: Column(
-          children:[
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left:5),
-                    decoration: BoxDecoration(
-                      color:Color(0xFF1E262C),
-                      borderRadius: BorderRadius.circular(3),
+      padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
+      child: Column(children: [
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.only(left: 5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E262C),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                child: const TextField(
+                  cursorColor: Colors.white,
+                  style: TextStyle(
+                    fontFamily: 'GSans',
+                    color: Colors.white,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'Rechercher un jeu...',
+                    hintStyle: TextStyle(
+                      fontFamily: 'GSans',
+                      fontSize: 13,
+                      color: Color(0xFFEDF0F3),
                     ),
-                    child: TextField(
-                      cursorColor: Colors.white,
-                      style: TextStyle(
-                        fontFamily: 'GSans',
-                        color: Colors.white,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: 'Rechercher un jeu...',
-                        hintStyle: TextStyle(
-                          fontFamily: 'GSans',
-                          fontSize: 13,
-                          color: Color(0xFFEDF0F3),
-                        ),
-                        contentPadding: EdgeInsets.all(10),
-                        border: InputBorder.none,
-                      ),
-                    ),
+                    contentPadding: EdgeInsets.all(10),
+                    border: InputBorder.none,
                   ),
                 ),
-                //SizedBox(width: 10),
-                Container(
-                  height: 50,
-                  width: 50,
-                  child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(context,MaterialPageRoute(builder:(context){
-                        return Recherche();
-                      },
-                      ),
-                      );
-                    },
-                    child: Icon(
-                      Icons.search,
-                      color: d_purple,
-                      size : 26,
-                    ),
-                    style : ElevatedButton.styleFrom(
-                      primary: Color(0xFF1E262C),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ]
-      ),
+            //SizedBox(width: 10),
+            Container(
+              height: 50,
+              width: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const Recherche();
+                      },
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1E262C),
+                ),
+                child: const Icon(
+                  Icons.search,
+                  color: d_purple,
+                  size: 26,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ]),
     );
   }
 }
 
 class Presentation extends StatelessWidget {
+  const Presentation({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width : 422,
+      width: 422,
       height: 237,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
             'assets/images/titanfall2.png',
@@ -155,104 +167,109 @@ class Presentation extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      child: Stack(
-          children:[
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child:Container(width: 170,
-                  margin: const EdgeInsets.only(left: 11, top: 50),
-                  child: Text('TitanFall 2      Ultimate Edition',
-                    style: TextStyle(
-                      fontFamily: 'GSans',
-                      color:Colors.white,
-                      fontSize:18,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+      child: Stack(children: [
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              width: 170,
+              margin: const EdgeInsets.only(left: 11, top: 50),
+              child: const Text(
+                'TitanFall 2      Ultimate Edition',
+                style: TextStyle(
+                  fontFamily: 'GSans',
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child:Container(width: 170,
-                  margin: const EdgeInsets.only(left: 11, top: 100),
-                  child: Text('Description de jeu',
-                    style: TextStyle(
-                      fontFamily: 'GSans',
-                      color:Colors.white,
-                      fontSize:12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+          ),
+        ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              width: 170,
+              margin: const EdgeInsets.only(left: 11, top: 100),
+              child: const Text(
+                'Description de jeu',
+                style: TextStyle(
+                  fontFamily: 'GSans',
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
-            Container(
-              width: 162,
-              height: 35,
-              margin: EdgeInsets.only(left:10,top:180,right:0,bottom:20),
-              alignment: Alignment.bottomLeft,
-              decoration: BoxDecoration(
-                color: d_purple,
-                borderRadius: BorderRadius.circular(3),
-
-              ),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      margin: EdgeInsets.only(left:10,top:5,right:0,bottom:0),
-                      child: MaterialButton(
-                        onPressed: (){
-                          Navigator.push(context,MaterialPageRoute(builder:(context){
-                            return DetailPage();
+          ),
+        ),
+        Container(
+          width: 162,
+          height: 35,
+          margin:
+              const EdgeInsets.only(left: 10, top: 180, right: 0, bottom: 20),
+          alignment: Alignment.bottomLeft,
+          decoration: BoxDecoration(
+            color: d_purple,
+            borderRadius: BorderRadius.circular(3),
+          ),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  margin: const EdgeInsets.only(
+                      left: 10, top: 5, right: 0, bottom: 0),
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const DetailPage();
                           },
-                          ),
-                          );
-                        },
-                        minWidth: 162,
-                        height: 35,
-                        child: Text(
-                          'En savoir plus ',
-                          style: TextStyle(
-                            fontFamily: 'GSans',
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                          ),
                         ),
+                      );
+                    },
+                    minWidth: 162,
+                    height: 35,
+                    child: const Text(
+                      'En savoir plus ',
+                      style: TextStyle(
+                        fontFamily: 'GSans',
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child:Container(
-                  width: 125,
-                  height: 125,
-                  margin: const EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        'assets/images/titanfall2pochette.png',
-                      ),
-                      //fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
+            ],
+          ),
+        ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              width: 125,
+              height: 125,
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    'assets/images/titanfall2pochette.png',
+                  ),
+                  //fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ]
-      ),
+          ),
+        ),
+      ]),
     );
   }
-
 }
 
 class GameSection extends StatelessWidget {
@@ -282,10 +299,12 @@ class GameSection extends StatelessWidget {
       'price': '180',
     },
   ];
+
+  GameSection({super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       color: d_black,
       child: Column(
         children: [
@@ -293,7 +312,7 @@ class GameSection extends StatelessWidget {
             height: 50,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Text(
                   'Les meilleures ventes',
                   style: TextStyle(
@@ -301,15 +320,14 @@ class GameSection extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
-                    decoration:TextDecoration.underline,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ],
             ),
           ),
-
           Column(
-            children: gameList.map((game){
+            children: gameList.map((game) {
               return GameCard(game);
             }).toList(),
           ),
@@ -319,15 +337,15 @@ class GameSection extends StatelessWidget {
   }
 }
 
-class GameCard extends StatelessWidget{
+class GameCard extends StatelessWidget {
   final Map gameData;
-  GameCard(this.gameData);
+  const GameCard(this.gameData, {super.key});
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(9),
+      margin: const EdgeInsets.all(9),
       height: 105,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color(0xFF1E262CE6),
         borderRadius: BorderRadius.all(
           Radius.circular(3),
@@ -351,10 +369,11 @@ class GameCard extends StatelessWidget{
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 0.0,top: 10.0, bottom: 0.0, right:0.0),
+                  margin: const EdgeInsets.only(
+                      left: 0.0, top: 10.0, bottom: 0.0, right: 0.0),
                   child: Text(
                     gameData['nameJeu'],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'GSans',
                       color: Colors.white,
                       fontSize: 15,
@@ -363,10 +382,11 @@ class GameCard extends StatelessWidget{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 0.0,top: 15.0, bottom: 0.0, right:0.0),
+                  margin: const EdgeInsets.only(
+                      left: 0.0, top: 15.0, bottom: 0.0, right: 0.0),
                   child: Text(
                     gameData['editor'],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'GSans',
                       color: Colors.white,
                       fontSize: 12,
@@ -375,15 +395,16 @@ class GameCard extends StatelessWidget{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 0.0,top: 20.0, bottom: 0.0, right:0.0),
+                  margin: const EdgeInsets.only(
+                      left: 0.0, top: 20.0, bottom: 0.0, right: 0.0),
                   child: Text(
-                    'Prix : '+gameData['price']+' \€',
-                    style: TextStyle(
+                    'Prix : ' + gameData['price'] + ' €',
+                    style: const TextStyle(
                       fontFamily: 'GSans',
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      decoration:TextDecoration.underline,
+                      decoration: TextDecoration.underline,
                     ),
                   ),
                 ),
@@ -392,7 +413,7 @@ class GameCard extends StatelessWidget{
           ),
           Container(
             width: 100,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: d_purple,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(3),
@@ -400,16 +421,19 @@ class GameCard extends StatelessWidget{
               ),
             ),
             child: MaterialButton(
-              onPressed: (){
-                Navigator.push(context,MaterialPageRoute(builder:(context){
-                  return DetailPage();
-                },
-                ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const DetailPage();
+                    },
+                  ),
                 );
               },
               minWidth: 100,
               height: 105,
-              child: Text(
+              child: const Text(
                 'En savoir plus ',
                 style: TextStyle(
                   fontFamily: 'GSans',

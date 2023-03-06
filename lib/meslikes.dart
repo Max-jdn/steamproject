@@ -2,28 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:steamproject/main.dart';
 import 'package:steamproject/detail_jeu.dart';
 
-class Likes extends StatelessWidget{
+class Likes extends StatelessWidget {
+  const Likes({super.key});
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-        appBar: LikesBar(),
-        body: SingleChildScrollView(//pour éviter l'overflow
+        appBar: const LikesBar(),
+        body: SingleChildScrollView(
+            //pour éviter l'overflow
             child: Column(
-              children: [
-                GameSectionL(),
-              ],
-            )
-        )
-    );
+          children: [
+            GameSectionL(),
+          ],
+        )));
   }
 }
 
-class LikesBar extends StatelessWidget implements PreferredSizeWidget{
-  Size get preferredSize => new Size.fromHeight(50);
+class LikesBar extends StatelessWidget implements PreferredSizeWidget {
+  const LikesBar({super.key});
+
   @override
-  Widget build(BuildContext context){
+  Size get preferredSize => const Size.fromHeight(50);
+  @override
+  Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
+      title: const Text(
         'Mes likes',
         style: TextStyle(
           fontFamily: 'GSans',
@@ -67,7 +71,7 @@ class GameSectionL extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       color: d_black,
       child: Column(
         children: [
@@ -75,7 +79,7 @@ class GameSectionL extends StatelessWidget {
             height: 50,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Text(
                   'Nombre de résultats : 4',
                   style: TextStyle(
@@ -83,15 +87,14 @@ class GameSectionL extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
-                    decoration:TextDecoration.underline,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ],
             ),
           ),
-
           Column(
-            children: gameList.map((game){
+            children: gameList.map((game) {
               return GameCardL(game);
             }).toList(),
           ),
@@ -101,15 +104,15 @@ class GameSectionL extends StatelessWidget {
   }
 }
 
-class GameCardL extends StatelessWidget{
+class GameCardL extends StatelessWidget {
   final Map gameData;
-  GameCardL(this.gameData);
+  const GameCardL(this.gameData, {super.key});
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(9),
+      margin: const EdgeInsets.all(9),
       height: 105,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color(0xFF1E262CE6),
         borderRadius: BorderRadius.all(
           Radius.circular(3),
@@ -133,10 +136,11 @@ class GameCardL extends StatelessWidget{
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 0.0,top: 10.0, bottom: 0.0, right:0.0),
+                  margin: const EdgeInsets.only(
+                      left: 0.0, top: 10.0, bottom: 0.0, right: 0.0),
                   child: Text(
                     gameData['nameJeu'],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'GSans',
                       color: Colors.white,
                       fontSize: 15,
@@ -145,10 +149,11 @@ class GameCardL extends StatelessWidget{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 0.0,top: 15.0, bottom: 0.0, right:0.0),
+                  margin: const EdgeInsets.only(
+                      left: 0.0, top: 15.0, bottom: 0.0, right: 0.0),
                   child: Text(
                     gameData['editor'],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'GSans',
                       color: Colors.white,
                       fontSize: 12,
@@ -157,15 +162,16 @@ class GameCardL extends StatelessWidget{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 0.0,top: 20.0, bottom: 0.0, right:0.0),
+                  margin: const EdgeInsets.only(
+                      left: 0.0, top: 20.0, bottom: 0.0, right: 0.0),
                   child: Text(
-                    'Prix : '+gameData['price']+' \€',
-                    style: TextStyle(
+                    'Prix : ' + gameData['price'] + ' €',
+                    style: const TextStyle(
                       fontFamily: 'GSans',
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      decoration:TextDecoration.underline,
+                      decoration: TextDecoration.underline,
                     ),
                   ),
                 ),
@@ -174,7 +180,7 @@ class GameCardL extends StatelessWidget{
           ),
           Container(
             width: 100,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: d_purple,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(3),
@@ -182,16 +188,19 @@ class GameCardL extends StatelessWidget{
               ),
             ),
             child: MaterialButton(
-              onPressed: (){
-                Navigator.push(context,MaterialPageRoute(builder:(context){
-                  return DetailPage();
-                },
-                ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const DetailPage();
+                    },
+                  ),
                 );
               },
               minWidth: 100,
               height: 105,
-              child: Text(
+              child: const Text(
                 'En savoir plus ',
                 style: TextStyle(
                   fontFamily: 'GSans',
@@ -207,5 +216,3 @@ class GameCardL extends StatelessWidget{
     );
   }
 }
-
-

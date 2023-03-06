@@ -12,8 +12,8 @@ class Inscription extends StatelessWidget {
         body: SingleChildScrollView(
             //pour éviter l'overflow
             child: Column(
-      children: [
-        const IndiInscript(),
+      children: const [
+        IndiInscript(),
       ],
     )));
   }
@@ -89,11 +89,11 @@ class _IndiInscriptState extends State<IndiInscript> {
               controller: usernameController,
               cursorColor: Colors.white,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'GSans',
                 color: Colors.white,
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Nom d Utilisateur',
                 hintStyle: TextStyle(
                   fontFamily: 'GSans',
@@ -119,11 +119,11 @@ class _IndiInscriptState extends State<IndiInscript> {
               controller: _emailController,
               cursorColor: Colors.white,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'GSans',
                 color: Colors.white,
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'E-mail',
                 hintStyle: TextStyle(
                   fontFamily: 'GSans',
@@ -149,11 +149,11 @@ class _IndiInscriptState extends State<IndiInscript> {
               controller: _passwordController,
               cursorColor: Colors.white,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'GSans',
                 color: Colors.white,
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Mot de Passe',
                 hintStyle: TextStyle(
                   fontFamily: 'GSans',
@@ -210,7 +210,7 @@ class _IndiInscriptState extends State<IndiInscript> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return Accueil();
+                      return const Accueil();
                     },
                   ),
                 );

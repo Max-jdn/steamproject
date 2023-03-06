@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:steamproject/main.dart';
 import 'package:steamproject/accueil.dart';
-class MdpOublie extends StatelessWidget{
+
+class MdpOublie extends StatelessWidget {
+  const MdpOublie({super.key});
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(//pour éviter l'overflow
+        body: SingleChildScrollView(
+            //pour éviter l'overflow
             child: Column(
-              children: [
-                IndiMdp(),
-              ],
-            )
-        )
-    );
+      children: [
+        IndiMdp(),
+      ],
+    )));
   }
 }
 
@@ -26,45 +28,45 @@ class IndiMdp extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 51,
           ),
           Container(
-            child: Text(
+            child: const Text(
               'Mot de passe oublié',
               style: TextStyle(
                 fontFamily: 'GSans',
-                color:Colors.white,
-                fontSize:30,
+                color: Colors.white,
+                fontSize: 30,
                 fontWeight: FontWeight.w400,
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 14,
           ),
           Container(
-            child: Text(
+            child: const Text(
               'Veuillez saisir votre e-mail afin de réinitialiser votre mot de passe',
               style: TextStyle(
                 fontFamily: 'GSans',
-                color:Colors.white,
-                fontSize:15,
+                color: Colors.white,
+                fontSize: 15,
                 fontWeight: FontWeight.w400,
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Container(
             height: 47,
             width: 328,
             decoration: BoxDecoration(
-              color: Color(0xFF1E262C),
+              color: const Color(0xFF1E262C),
               borderRadius: BorderRadius.circular(3),
             ),
-            child: TextField(
+            child: const TextField(
               cursorColor: Colors.white,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -83,27 +85,30 @@ class IndiMdp extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 73,),
+          const SizedBox(
+            height: 73,
+          ),
           Container(
             width: 328,
             height: 47,
             decoration: BoxDecoration(
               color: d_purple,
               borderRadius: BorderRadius.circular(3),
-
             ),
             child: MaterialButton(
-              onPressed: (){
-                Navigator.push(context,MaterialPageRoute(builder:(context){
-                  return Accueil();
-                },
-                ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const Accueil();
+                    },
+                  ),
                 );
               },
               minWidth: 328,
               height: 47,
-
-              child: Text(
+              child: const Text(
                 'Renvoyer mon mot de passe ',
                 style: TextStyle(
                   fontFamily: 'GSans',
@@ -116,7 +121,6 @@ class IndiMdp extends StatelessWidget {
           ),
         ],
       ),
-
     );
   }
 }

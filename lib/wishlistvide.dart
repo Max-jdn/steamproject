@@ -2,67 +2,65 @@ import 'package:flutter/material.dart';
 import 'package:steamproject/main.dart';
 import 'package:steamproject/wishlist.dart';
 
+class WishlistVide extends StatelessWidget {
+  const WishlistVide({super.key});
 
-class WishlistVide extends StatelessWidget{
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-        appBar: WishlistBar(),
-        body: SingleChildScrollView(//pour éviter l'overflow
+        appBar: const WishlistBar(),
+        body: SingleChildScrollView(
+            //pour éviter l'overflow
             child: Column(
-              children: [
-                PageVideW(),
-              ],
-            )
-        )
-    );
+          children: const [
+            PageVideW(),
+          ],
+        )));
   }
 }
 
 class PageVideW extends StatelessWidget {
+  const PageVideW({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 600,
+        width: 600,
         height: 600,
         alignment: Alignment.center,
         color: d_black,
-        child : Column(
+        child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 204,
             ),
             Container(
               child: ElevatedButton(
-                onPressed: (){},
-                child: Icon(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1E262C),
+                ),
+                child: const Icon(
                   Icons.star_sharp,
                   color: Colors.white,
-                  size : 94,
-                ),
-                style : ElevatedButton.styleFrom(
-                  primary: Color(0xFF1E262C),
+                  size: 94,
                 ),
               ),
             ),
             Container(
-              width : 352,
-              child: Text(
-                'Vous n avez pas encore liké de contenu !'+
-                    'Cliquez sur l étoile pour en rajouter ',
+              width: 352,
+              child: const Text(
+                'Vous n avez pas encore liké de contenu !'
+                'Cliquez sur l étoile pour en rajouter ',
                 style: TextStyle(
                   fontFamily: 'GSans',
-                  color:Colors.white,
-                  fontSize:15,
+                  color: Colors.white,
+                  fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),
               ),
             ),
           ],
-
-        )
-
-    );
+        ));
   }
 }
-
