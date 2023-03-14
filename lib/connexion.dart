@@ -4,25 +4,42 @@ import 'package:steamproject/main.dart';
 import 'package:steamproject/accueil.dart';
 import 'package:steamproject/detail_jeu.dart';
 import 'package:steamproject/mdpoublie.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Connexion extends StatelessWidget {
-  const Connexion({super.key});
-
+  Connexion({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
             //pour éviter l'overflow
             child: Column(
-      children: [
-        const IndiConnect(),
+      children: const [
+        IndiConnect(),
       ],
     )));
   }
 }
 
-class IndiConnect extends StatelessWidget {
-  const IndiConnect({super.key});
+class IndiConnect extends StatefulWidget {
+  const IndiConnect({Key? key}) : super(key: key);
+
+  @override
+  State<IndiConnect> createState() => _IndiConnectState();
+}
+
+class _IndiConnectState extends State<IndiConnect> {
+  final TextEditingController _emailControllerCon = TextEditingController();
+  final TextEditingController _passwordControllerCon = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailControllerCon.dispose();
+    _passwordControllerCon.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,14 +88,15 @@ class IndiConnect extends StatelessWidget {
               color: const Color(0xFF1E262C),
               borderRadius: BorderRadius.circular(3),
             ),
-            child: const TextField(
+            child: TextField(
+              controller: _emailControllerCon,
               cursorColor: Colors.white,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'GSans',
                 color: Colors.white,
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'E-mail',
                 hintStyle: TextStyle(
                   fontFamily: 'GSans',
@@ -100,14 +118,15 @@ class IndiConnect extends StatelessWidget {
               color: const Color(0xFF1E262C),
               borderRadius: BorderRadius.circular(3),
             ),
-            child: const TextField(
+            child: TextField(
+              controller: _passwordControllerCon,
               cursorColor: Colors.white,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'GSans',
                 color: Colors.white,
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Mot de Passe',
                 hintStyle: TextStyle(
                   fontFamily: 'GSans',
@@ -135,7 +154,7 @@ class IndiConnect extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const Accueil();
+                      return const Inscription();
                     },
                   ),
                 );
@@ -143,7 +162,7 @@ class IndiConnect extends StatelessWidget {
               minWidth: 328,
               height: 47,
               child: const Text(
-                'Se connecter',
+                'Sinscrire',
                 style: TextStyle(
                   fontFamily: 'GSans',
                   color: Colors.white,
@@ -168,20 +187,43 @@ class IndiConnect extends StatelessWidget {
               ),
             ),
             child: MaterialButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const Inscription();
-                    },
-                  ),
-                );
+              onPressed: () async {
+                final result = await FirebaseFirestore.instance
+                    .collection('user')
+                    .where('email', isEqualTo: _emailControllerCon.text)
+                    .where('password', isEqualTo: _passwordControllerCon.text)
+                    .get();
+
+                //if (_emailControllerCon.text == 'gug' &&
+                // _passwordControllerCon.text == 'mdp')
+                if (result.docs.isNotEmpty) {
+                  await Future.delayed(Duration.zero);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const Accueil(),
+                    ),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(_emailControllerCon.text),
+                      content:
+                          const Text('Identifiants de connexion invalides'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               },
               minWidth: 328,
               height: 47,
               child: const Text(
-                'Créer un nouveau compte',
+                'Se connecter ',
                 style: TextStyle(
                   fontFamily: 'GSans',
                   color: Colors.white,
