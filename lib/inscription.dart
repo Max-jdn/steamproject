@@ -47,9 +47,16 @@ class _IndiInscriptState extends State<IndiInscript> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: d_black,
       height: 1000,
       width: 1000,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            "assets/images/background.png",
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

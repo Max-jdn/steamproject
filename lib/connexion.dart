@@ -6,6 +6,7 @@ import 'package:steamproject/detail_jeu.dart';
 import 'package:steamproject/mdpoublie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Connexion extends StatelessWidget {
   Connexion({Key? key}) : super(key: key);
@@ -29,10 +30,37 @@ class IndiConnect extends StatefulWidget {
   State<IndiConnect> createState() => _IndiConnectState();
 }
 
+Future<bool> signIn(String email, String password) async {
+  try {
+    // Vérifier si les champs email et mot de passe sont vides ou non valides
+    if (email.isEmpty || password.isEmpty) {
+      print('Veuillez saisir un email et un mot de passe valides.');
+      return false;
+    }
+
+    // Authentifier l'utilisateur avec Firebase
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    return FirebaseAuth.instance.currentUser != null;
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      print('Utilisateur non trouvé pour l\'email donné.');
+    } else if (e.code == 'wrong-password') {
+      print('Mot de passe incorrect.');
+    } else {
+      print('Erreur d\'authentification : $e');
+    }
+    return false;
+  }
+}
+
 class _IndiConnectState extends State<IndiConnect> {
   final TextEditingController _emailControllerCon = TextEditingController();
   final TextEditingController _passwordControllerCon = TextEditingController();
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void dispose() {
     _emailControllerCon.dispose();
@@ -44,9 +72,16 @@ class _IndiConnectState extends State<IndiConnect> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: d_black,
       height: 1000,
       width: 1000,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            "assets/images/background.png",
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -188,34 +223,30 @@ class _IndiConnectState extends State<IndiConnect> {
             ),
             child: MaterialButton(
               onPressed: () async {
-                final result = await FirebaseFirestore.instance
-                    .collection('user')
-                    .where('email', isEqualTo: _emailControllerCon.text)
-                    .where('password', isEqualTo: _passwordControllerCon.text)
-                    .get();
+                bool signInSuccess = false;
+                while (!signInSuccess) {
+                  if (!(await signIn(
+                      _emailControllerCon.text, _passwordControllerCon.text))) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Erreur de connexion'),
+                        content: const Text(
+                            'Veuillez saisir un email et un mot de passe valides.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
 
-                //if (_emailControllerCon.text == 'gug' &&
-                // _passwordControllerCon.text == 'mdp')
-                if (result.docs.isNotEmpty) {
-                  await Future.delayed(Duration.zero);
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const Accueil(),
-                    ),
-                  );
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text(_emailControllerCon.text),
-                      content:
-                          const Text('Identifiants de connexion invalides'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('OK'),
-                        ),
-                      ],
                     ),
                   );
                 }
