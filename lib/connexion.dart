@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:steamproject/inscription.dart';
 import 'package:steamproject/main.dart';
 import 'package:steamproject/accueil.dart';
-import 'package:steamproject/detail_jeu.dart';
 import 'package:steamproject/mdpoublie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Connexion extends StatelessWidget {
-  Connexion({Key? key}) : super(key: key);
+class Connexion extends StatefulWidget {
+  const Connexion({Key? key}) : super(key: key);
+
+  @override
+  State<Connexion> createState() {
+    return _ConnexionState();
+  }
+}
+
+class _ConnexionState extends State<Connexion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +40,7 @@ class IndiConnect extends StatefulWidget {
 class _IndiConnectState extends State<IndiConnect> {
   final TextEditingController _emailControllerCon = TextEditingController();
   final TextEditingController _passwordControllerCon = TextEditingController();
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void dispose() {
     _emailControllerCon.dispose();
@@ -188,36 +196,38 @@ class _IndiConnectState extends State<IndiConnect> {
             ),
             child: MaterialButton(
               onPressed: () async {
-                final result = await FirebaseFirestore.instance
-                    .collection('user')
-                    .where('email', isEqualTo: _emailControllerCon.text)
-                    .where('password', isEqualTo: _passwordControllerCon.text)
-                    .get();
+                try {
+                  final credential = await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _emailControllerCon.text,
+                          password: _passwordControllerCon.text);
 
-                //if (_emailControllerCon.text == 'gug' &&
-                // _passwordControllerCon.text == 'mdp')
-                if (result.docs.isNotEmpty) {
-                  await Future.delayed(Duration.zero);
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const Accueil(),
-                    ),
-                  );
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text(_emailControllerCon.text),
-                      content:
-                          const Text('Identifiants de connexion invalides'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    ),
-                  );
+                  if (credential.user != null) {
+                    // Navigate to the home page if authentication was successful
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Accueil()),
+                    );
+                  }
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'user-not-found' ||
+                      e.code == 'wrong-password') {
+                    // Display an error message if authentication failed
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Erreur de connexion'),
+                        content:
+                            Text('Identifiants invalides. Veuillez réessayer.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 }
               },
               minWidth: 328,

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:steamproject/main.dart';
 import 'package:steamproject/accueil.dart';
@@ -201,13 +202,6 @@ class _IndiInscriptState extends State<IndiInscript> {
                     contentPadding: EdgeInsets.all(10),
                     border: InputBorder.none,
                   ),
-                  onChanged: (value) {
-                    if (value == _passwordController.text) {
-                    } else {
-                      // Les deux champs de mot de passe ne sont pas identiques
-                      showErrorMessage(context);
-                    }
-                  },
                 ),
               ),
             ],
@@ -223,7 +217,46 @@ class _IndiInscriptState extends State<IndiInscript> {
               borderRadius: BorderRadius.circular(3),
             ),
             child: MaterialButton(
-              onPressed: () {
+              onPressed: () async {
+                if (_passwordController.text !=
+                    _verifyPasswordController.text) {
+                  showErrorMessage(context);
+                  return;
+                }
+
+                // add a condition to check if the password is strong enough
+                if (_passwordController.text.length < 6) {
+                  // show a dialog to tell the user that the password is too weak
+                  showAboutDialog(context: context, children: [
+                    const Text('The password is too weak'),
+                  ]);
+                  return;
+                }
+                // add a condition if the email is with good format
+                if (!_emailController.text.contains('@')) {
+                  // show a dialog to tell the user that the email is not valid
+                  showAboutDialog(context: context, children: [
+                    const Text('The email is not valid'),
+                  ]);
+                  return;
+                }
+
+                try {
+                  final credential = await FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  );
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'weak-password') {
+                    print('The password provided is too weak.');
+                  } else if (e.code == 'email-already-in-use') {
+                    print('The account already exists for that email.');
+                  }
+                } catch (e) {
+                  print(e);
+                }
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
