@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:steamproject/inscription.dart';
 import 'package:steamproject/main.dart';
 import 'package:steamproject/accueil.dart';
-import 'package:steamproject/detail_jeu.dart';
 import 'package:steamproject/mdpoublie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Connexion extends StatelessWidget {
-  Connexion({Key? key}) : super(key: key);
+class Connexion extends StatefulWidget {
+  const Connexion({Key? key}) : super(key: key);
+
+  @override
+  State<Connexion> createState() {
+    return _ConnexionState();
+  }
+}
+
+class _ConnexionState extends State<Connexion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,33 +37,6 @@ class IndiConnect extends StatefulWidget {
   State<IndiConnect> createState() => _IndiConnectState();
 }
 
-Future<bool> signIn(String email, String password) async {
-  try {
-    // Vérifier si les champs email et mot de passe sont vides ou non valides
-    if (email.isEmpty || password.isEmpty) {
-      print('Veuillez saisir un email et un mot de passe valides.');
-      return false;
-    }
-
-    // Authentifier l'utilisateur avec Firebase
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-
-    return FirebaseAuth.instance.currentUser != null;
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      print('Utilisateur non trouvé pour l\'email donné.');
-    } else if (e.code == 'wrong-password') {
-      print('Mot de passe incorrect.');
-    } else {
-      print('Erreur d\'authentification : $e');
-    }
-    return false;
-  }
-}
-
 class _IndiConnectState extends State<IndiConnect> {
   final TextEditingController _emailControllerCon = TextEditingController();
   final TextEditingController _passwordControllerCon = TextEditingController();
@@ -72,16 +52,9 @@ class _IndiConnectState extends State<IndiConnect> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: d_black,
       height: 1000,
       width: 1000,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(
-            "assets/images/background.png",
-          ),
-          fit: BoxFit.cover,
-        ),
-      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -223,32 +196,38 @@ class _IndiConnectState extends State<IndiConnect> {
             ),
             child: MaterialButton(
               onPressed: () async {
-                bool signInSuccess = false;
-                while (!signInSuccess) {
-                  if (!(await signIn(
-                      _emailControllerCon.text, _passwordControllerCon.text))) {
+                try {
+                  final credential = await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _emailControllerCon.text,
+                          password: _passwordControllerCon.text);
+
+                  if (credential.user != null) {
+                    // Navigate to the home page if authentication was successful
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Accueil()),
+                    );
+                  }
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'user-not-found' ||
+                      e.code == 'wrong-password') {
+                    // Display an error message if authentication failed
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text('Erreur de connexion'),
-                        content: const Text(
-                            'Veuillez saisir un email et un mot de passe valides.'),
+                        title: Text('Erreur de connexion'),
+                        content:
+                            Text('Identifiants invalides. Veuillez réessayer.'),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: const Text('OK'),
+                            child: Text('OK'),
                           ),
                         ],
                       ),
                     );
-                    return;
                   }
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const Accueil(),
-                    ),
-                  );
                 }
               },
               minWidth: 328,
