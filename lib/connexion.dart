@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:steamproject/api.dart';
 import 'package:steamproject/inscription.dart';
 import 'package:steamproject/main.dart';
 import 'package:steamproject/accueil.dart';
@@ -206,7 +207,7 @@ class _IndiConnectState extends State<IndiConnect> {
                     // Navigate to the home page if authentication was successful
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Accueil()),
+                      MaterialPageRoute(builder: (context) => Api()),
                     );
                   }
                 } on FirebaseAuthException catch (e) {
