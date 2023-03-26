@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:steamproject/main.dart';
+import 'package:steamproject/meslikes.dart';
+import 'package:steamproject/meslikesvide.dart';
+import 'package:steamproject/wishlist.dart';
+import 'package:steamproject/wishlistvide.dart';
 
 /*class DetailPage extends StatelessWidget{
   @override
@@ -34,21 +38,39 @@ class DetailJeuBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        const IconButton(
+         IconButton(
           icon: Icon(
             Icons.favorite_outline_rounded,
             color: Colors.white,
             size: 20,
           ),
-          onPressed: null,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const LikesVide();
+                  },
+                ),
+              );
+            }
         ),
-        const IconButton(
+        IconButton(
           icon: Icon(
             Icons.star_border_outlined,
             color: Colors.white,
             size: 20,
           ),
-          onPressed: null,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const WishlistVide();
+                  },
+                ),
+              );
+            }
         ),
       ],
       backgroundColor: d_black,
@@ -102,6 +124,7 @@ class _MyHomePageState extends State<DetailPage> {
     print(_tab);
 
     return Scaffold(
+      backgroundColor: d_black,
       appBar: DetailJeuBar(),
       body: SingleChildScrollView(
         child: Column(
@@ -271,7 +294,15 @@ class DescriptionTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Description");
+    return const Text(
+      "Description",
+      style: TextStyle(
+        fontFamily: 'GSans',
+        color: Colors.white,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+      ),
+    );
   }
 }
 
@@ -280,6 +311,14 @@ class ReviewsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Avis");
+    return const Text(
+      "Avis",
+      style: TextStyle(
+        fontFamily: 'GSans',
+        color: Colors.white,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+      ),
+    );
   }
 }
