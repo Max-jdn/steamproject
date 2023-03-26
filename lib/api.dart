@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 
 Future<Album> fetchAlbum() async {
-  final httpClient = HttpClient();
+  var httpClient = HttpClient();
   final uri = Uri.parse(
       'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1');
   final request = await httpClient.getUrl(uri);
