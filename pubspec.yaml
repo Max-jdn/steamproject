@@ -43,6 +43,8 @@ dependencies:
   firebase_auth: ^4.2.10
   location: ^4.4.0
   http: ^0.13.0
+  universal_io: ^2.2.0
+  
   
 
 

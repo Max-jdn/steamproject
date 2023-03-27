@@ -1,44 +1,74 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
-Future<Album> fetchAlbum() async {
-  var httpClient = HttpClient();
-  final uri = Uri.parse(
-      'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1');
-  final request = await httpClient.getUrl(uri);
-  final response = await request.close();
-  final responseBody = await response.transform(utf8.decoder).join();
-  httpClient.close();
+import 'package:flutter/material.dart';
 
-  if (response.statusCode == 200) {
-    return Album.fromJson(jsonDecode(responseBody));
-  } else {
-    throw Exception('Failed to load album');
+Future<List<Rank>> fetchGames() async {
+  try {
+    final response = await http.get(
+      Uri.https(
+          'api.steampowered.com', '/ISteamChartsService/GetMostPlayedGames/v1'),
+      headers: {
+        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+        "Access-Control-Allow-Credentials":
+            'true', // Required for cookies, authorization headers with HTTPS
+        "Access-Control-Allow-Headers":
+            "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Games.fromJson(jsonDecode(response.body)).ranks;
+    } else {
+      throw Exception('Failed to load games: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Failed to load games: $e');
   }
 }
 
-class Album {
-  final int rank;
-  final int appid;
-  final int last_week_rank;
-  final int peak_in_game;
+class Games {
+  final int rollupDate;
+  final List<Rank> ranks;
 
-  const Album({
-    required this.rank,
-    required this.appid,
-    required this.last_week_rank,
-    required this.peak_in_game,
+  Games({
+    required this.rollupDate,
+    required this.ranks,
   });
 
-  factory Album.fromJson(Map<String, dynamic> json) {
-    return Album(
-      rank: json['rank'] as int,
-      appid: json['appid'] as int,
-      last_week_rank: json['last_week_rank'] as int,
-      peak_in_game: json['peak_in_game'] as int,
+  factory Games.fromJson(Map<String, dynamic> json) {
+    return Games(
+      rollupDate: json['response']['rollup_date'],
+      ranks: List<Rank>.from(
+        json['response']['ranks'].map(
+          (rankJson) => Rank.fromJson(rankJson),
+        ),
+      ),
+    );
+  }
+}
+
+class Rank {
+  final int rank;
+  final int appId;
+  final int lastWeekRank;
+  final int peakInGame;
+
+  Rank({
+    required this.rank,
+    required this.appId,
+    required this.lastWeekRank,
+    required this.peakInGame,
+  });
+
+  factory Rank.fromJson(Map<String, dynamic> json) {
+    return Rank(
+      rank: json['rank'],
+      appId: json['appid'],
+      lastWeekRank: json['last_week_rank'],
+      peakInGame: json['peak_in_game'],
     );
   }
 }
@@ -51,12 +81,12 @@ class Api extends StatefulWidget {
 }
 
 class _ApiState extends State<Api> {
-  late Future<Album> futureAlbum;
+  late Future<List<Rank>> futureGames;
 
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
+    futureGames = fetchGames();
   }
 
   @override
@@ -71,19 +101,20 @@ class _ApiState extends State<Api> {
           title: const Text('Fetch Data Example'),
         ),
         body: Center(
-          child: FutureBuilder<Album>(
-            future: futureAlbum,
+          child: FutureBuilder<List<Rank>>(
+            future: futureGames,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final album = snapshot.data!;
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Rank: ${album.rank}'),
-                    Text('App ID: ${album.appid}'),
-                    Text('Last Week Rank: ${album.last_week_rank}'),
-                    Text('Peak In Game: ${album.peak_in_game}'),
-                  ],
+                final ranks = snapshot.data!;
+                return ListView.builder(
+                  itemCount: ranks.length,
+                  itemBuilder: (context, index) {
+                    final rank = ranks[index];
+                    return ListTile(
+                      title: Text('${rank.rank}. ${rank.appId}'),
+                      subtitle: Text('Peak In Game: ${rank.peakInGame}'),
+                    );
+                  },
                 );
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
