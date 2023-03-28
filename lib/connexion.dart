@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:steamproject/api.dart';
 import 'package:steamproject/inscription.dart';
 import 'package:steamproject/main.dart';
-import 'package:steamproject/accueil.dart';
+//import 'package:steamproject/accueil.dart';
 import 'package:steamproject/mdpoublie.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Connexion extends StatefulWidget {
@@ -22,12 +20,12 @@ class _ConnexionState extends State<Connexion> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-            //pour éviter l'overflow
+          //pour éviter l'overflow
             child: Column(
-      children: const [
-        IndiConnect(),
-      ],
-    )));
+              children: const [
+                IndiConnect(),
+              ],
+            )));
   }
 }
 
@@ -41,7 +39,6 @@ class IndiConnect extends StatefulWidget {
 class _IndiConnectState extends State<IndiConnect> {
   final TextEditingController _emailControllerCon = TextEditingController();
   final TextEditingController _passwordControllerCon = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void dispose() {
     _emailControllerCon.dispose();
@@ -69,29 +66,25 @@ class _IndiConnectState extends State<IndiConnect> {
           const SizedBox(
             height: 51,
           ),
-          Container(
-            child: const Text(
-              'Bienvenue !',
-              style: TextStyle(
-                fontFamily: 'GSans',
-                color: Colors.white,
-                fontSize: 30,
-                fontWeight: FontWeight.w400,
-              ),
+          const Text(
+            'Bienvenue !',
+            style: TextStyle(
+              fontFamily: 'GSans',
+              color: Colors.white,
+              fontSize: 30,
+              fontWeight: FontWeight.w400,
             ),
           ),
           const SizedBox(
             height: 14,
           ),
-          Container(
-            child: const Text(
-              'Veuillez vous connecter ou créer un nouveau compte',
-              style: TextStyle(
-                fontFamily: 'GSans',
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-              ),
+          const Text(
+            'Veuillez vous connecter ou créer un nouveau compte',
+            style: TextStyle(
+              fontFamily: 'GSans',
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
             ),
           ),
           const SizedBox(
@@ -207,11 +200,12 @@ class _IndiConnectState extends State<IndiConnect> {
                 try {
                   final credential = await FirebaseAuth.instance
                       .signInWithEmailAndPassword(
-                          email: _emailControllerCon.text,
-                          password: _passwordControllerCon.text);
+                      email: _emailControllerCon.text,
+                      password: _passwordControllerCon.text);
 
                   if (credential.user != null) {
                     // Navigate to the home page if authentication was successful
+                    // ignore: use_build_context_synchronously
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Api()),
@@ -224,13 +218,13 @@ class _IndiConnectState extends State<IndiConnect> {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: Text('Erreur de connexion'),
+                        title: const Text('Erreur de connexion'),
                         content:
-                            Text('Identifiants invalides. Veuillez réessayer.'),
+                        const Text('Identifiants invalides. Veuillez réessayer.'),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text('OK'),
+                            child: const Text('OK'),
                           ),
                         ],
                       ),
@@ -264,7 +258,7 @@ class _IndiConnectState extends State<IndiConnect> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return MdpOublie();
+                      return const MdpOublie();
                     },
                   ),
                 );

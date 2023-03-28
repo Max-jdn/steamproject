@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -133,7 +132,7 @@ class _ApiState extends State<Api> {
                   itemBuilder: (context, index) {
                     final rank = ranks[index];
                     return ListTile(
-                      title: Text('${rank.name}. ${rank.appId}'),
+                      title: Text('${rank.rank}. ${rank.name}'),
                       subtitle: Text('Peak In Game: ${rank.peakInGame}'),
                     );
                   },
