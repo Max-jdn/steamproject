@@ -20,13 +20,32 @@ Future<List<Rank>> fetchGames() async {
     );
 
     if (response.statusCode == 200) {
-      return Games.fromJson(jsonDecode(response.body)).ranks;
+      return await _getGameDetails(
+          Games.fromJson(jsonDecode(response.body)).ranks);
     } else {
       throw Exception('Failed to load games: ${response.statusCode}');
     }
   } catch (e) {
     throw Exception('Failed to load games: $e');
   }
+}
+
+Future<List<Rank>> _getGameDetails(List<Rank> ranks) async {
+  List<Rank> updatedRanks = [];
+  for (var rank in ranks) {
+    final response = await http.get(
+      Uri.parse(
+          'https://store.steampowered.com/api/appdetails?appids=${rank.appId}'),
+    );
+    if (response.statusCode == 200) {
+      final jsonBody = jsonDecode(response.body);
+      if (jsonBody[rank.appId.toString()]['success']) {
+        rank.name = jsonBody[rank.appId.toString()]['data']['name'];
+      }
+    }
+    updatedRanks.add(rank);
+  }
+  return updatedRanks;
 }
 
 class Games {
@@ -55,12 +74,14 @@ class Rank {
   final int appId;
   final int lastWeekRank;
   final int peakInGame;
+  String? name;
 
   Rank({
     required this.rank,
     required this.appId,
     required this.lastWeekRank,
     required this.peakInGame,
+    this.name,
   });
 
   factory Rank.fromJson(Map<String, dynamic> json) {
@@ -69,6 +90,7 @@ class Rank {
       appId: json['appid'],
       lastWeekRank: json['last_week_rank'],
       peakInGame: json['peak_in_game'],
+      name: json['name'],
     );
   }
 }
@@ -111,7 +133,7 @@ class _ApiState extends State<Api> {
                   itemBuilder: (context, index) {
                     final rank = ranks[index];
                     return ListTile(
-                      title: Text('${rank.rank}. ${rank.appId}'),
+                      title: Text('${rank.name}. ${rank.appId}'),
                       subtitle: Text('Peak In Game: ${rank.peakInGame}'),
                     );
                   },
