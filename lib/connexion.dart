@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:steamproject/api.dart';
 import 'package:steamproject/inscription.dart';
 import 'package:steamproject/main.dart';
-//import 'package:steamproject/accueil.dart';
+import 'package:steamproject/accueil.dart';
 import 'package:steamproject/mdpoublie.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -208,7 +208,7 @@ class _IndiConnectState extends State<IndiConnect> {
                     // ignore: use_build_context_synchronously
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Api()),
+                      MaterialPageRoute(builder: (context) => Accueil()),
                     );
                   }
                 } on FirebaseAuthException catch (e) {

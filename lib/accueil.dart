@@ -386,7 +386,22 @@ class _GameSectionState extends State<GameSection> {
       'editor': 'Nom de l editeur',
       'picture': 'assets/images/Destiny2pochette.png',
       'price': '180',
+      'description': 'Description du jeu',
     },
+    {
+      'nameJeu': 'nom du game',
+      'editor': 'Nom de l editeur',
+      'picture': 'assets/images/Destiny2pochette.png',
+      'price': '180',
+      'description': 'Description du jeu',
+    },
+    {
+      'nameJeu': 'nom du game',
+      'editor': 'Nom de l editeur',
+      'picture': 'assets/images/Destiny2pochette.png',
+      'price': '180',
+      'description': 'Description du jeu',
+    }
   ];
 
   @override
