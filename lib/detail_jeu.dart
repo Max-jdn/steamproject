@@ -6,23 +6,6 @@ import 'package:steamproject/wishlist.dart';
 import 'package:steamproject/wishlistvide.dart';
 import 'package:steamproject/api.dart';
 
-/*class DetailPage extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return Scaffold(
-        appBar: DetailJeuBar(),
-        body: SingleChildScrollView(//pour éviter l'overflow
-            child: Column(
-              children: [
-                HeaderSection(),
-              ],
-            )
-        )
-    );
-  }
-}
-
-*/
 class DetailJeuBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => new Size.fromHeight(50);
@@ -71,65 +54,27 @@ class DetailJeuBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               );
             }),
-        ElevatedButton.icon(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const Api();
-                },
-              ),
-            );
-          },
-          icon: Icon(
-            Icons.api,
-            color: Colors.white,
-            size: 20,
-          ),
-          label: Text(
-            'API',
-            style: TextStyle(
+        IconButton(
+            icon: Icon(
+              Icons.star_border_outlined,
               color: Colors.white,
+              size: 20,
             ),
-          ),
-        )
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const Api();
+                  },
+                ),
+              );
+            }),
       ],
       backgroundColor: d_black,
     );
   }
 }
-/*
-class HeaderSection extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return Container(
-      height: 297,
-      decoration: BoxDecoration(
-        color: d_purple,
-        image: DecorationImage(
-          image: AssetImage('assets/images/battlefield1gasMask.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            left: 20,
-            bottom: -10,
-              child: Container(
-            height: 100,
-            width: 348,
-                decoration: BoxDecoration(
-                  color: d_purple,
-                ),
-          ),
-          ),
-        ],
-      ),
-    );
-  }
-}*/
 
 class DetailPage extends StatefulWidget {
   const DetailPage({super.key});
