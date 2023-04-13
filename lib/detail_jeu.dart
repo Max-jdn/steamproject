@@ -4,6 +4,7 @@ import 'package:steamproject/meslikes.dart';
 import 'package:steamproject/meslikesvide.dart';
 import 'package:steamproject/wishlist.dart';
 import 'package:steamproject/wishlistvide.dart';
+import 'package:steamproject/api.dart';
 
 /*class DetailPage extends StatelessWidget{
   @override
@@ -38,12 +39,12 @@ class DetailJeuBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-         IconButton(
-          icon: Icon(
-            Icons.favorite_outline_rounded,
-            color: Colors.white,
-            size: 20,
-          ),
+        IconButton(
+            icon: Icon(
+              Icons.favorite_outline_rounded,
+              color: Colors.white,
+              size: 20,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -53,14 +54,13 @@ class DetailJeuBar extends StatelessWidget implements PreferredSizeWidget {
                   },
                 ),
               );
-            }
-        ),
+            }),
         IconButton(
-          icon: Icon(
-            Icons.star_border_outlined,
-            color: Colors.white,
-            size: 20,
-          ),
+            icon: Icon(
+              Icons.star_border_outlined,
+              color: Colors.white,
+              size: 20,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -70,8 +70,30 @@ class DetailJeuBar extends StatelessWidget implements PreferredSizeWidget {
                   },
                 ),
               );
-            }
-        ),
+            }),
+        ElevatedButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const Api();
+                },
+              ),
+            );
+          },
+          icon: Icon(
+            Icons.api,
+            color: Colors.white,
+            size: 20,
+          ),
+          label: Text(
+            'API',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        )
       ],
       backgroundColor: d_black,
     );

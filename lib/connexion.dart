@@ -208,7 +208,7 @@ class _IndiConnectState extends State<IndiConnect> {
                     // ignore: use_build_context_synchronously
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Accueil()),
+                      MaterialPageRoute(builder: (context) => const Accueil()),
                     );
                   }
                 } on FirebaseAuthException catch (e) {
