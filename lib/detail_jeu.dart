@@ -49,7 +49,7 @@ class DetailJeuBar extends StatelessWidget implements PreferredSizeWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return const WishlistVide();
+                    return const Api();
                   },
                 ),
               );
